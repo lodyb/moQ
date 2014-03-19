@@ -1,0 +1,20 @@
+moQ task list
+
+important tasks:
+ ✔ basic page template @done (14-03-19 11:42)
+ ☐ make embeds work
+ ☐ make chat input
+ ☐ save chats to text or db
+ ☐ user to user communication (securely)
+ ☐ base stylesheet
+ ☐ display chat history without breaking page
+ ☐ figure out if it should be js/html filesystem or just use a backend
+ ☐ fix chat length overflow issue
+
+optional tasks:
+ ☐ create a basic theme
+ ☐ make animations
+ ☐ YouTube video sync player
+ ☐ customisable user chat/name colours
+ ☐ user avatars
+ ☐ user bio, links to homepage etc

@@ -118,6 +118,25 @@ footer{
     position:absolute;
 }
 
+
+.user, .system{
+    display:block;
+    margin:10px;
+}
+
+.user:before{
+    content:"%user%: ";
+    position:relative;
+    margin-left:-0.5em;
+    opacity:0.6;
+}
+
+.system:before{
+    content:"] ";
+    position:relative;
+    margin-left:-0.5em;
+}
+
 /* Base font styling */
 
 html{
@@ -172,3 +191,7 @@ section a:hover:after, section a:hover:before{
 
 ::-moz-selection{color:#aaa;background:#ddd;}
 ::selection{color:#aaa;background:#ddd;}
+
+.system{
+    opacity:0.6;
+}

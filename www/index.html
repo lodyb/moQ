@@ -5,40 +5,51 @@
     <meta charset="utf-8">
     <title>moQ</title>
     <link href="base.css" rel="stylesheet">
-    <link href="themes\melody.css" rel="stylesheet">
 
 </head>
-<body>
+<body onkeydown="return run(event)">
 
     <div id="wrapper">
     
         <header>
-        <span id="ver">moQ - Version <span id="verid">%version%</span></span>
+        <!-- Display version number -->
+        <span id="ver">moQ - Version
+            <span id="verid">%version%</span>
+        </span>
+        <!-- Link to github repository -->
         <span id="fork">fork on github</span>
         </header>
 
         <div id="chat">
         
             <main>
+                <!-- Display chat recipient(s) -->
                 <h1>Chat with <span id="user">%user%</span></h1>
             </main>
 
             <div id="history">
+            <!-- The entire chat log goes here -->
                 chat is here
             </div>
 
             <div id="input">
                 <section>
+                    <!-- This will hold font styles, like bold, italic,
+                    hyperlink YouTube embed, image embed, etc! -->
                     <div id="controls">
                         buttons here for embedding and input styles
                     </div>
-                    <div contenteditable id="textinput">...</div>
+                    <!-- This is the text input field -->
+                    <div contenteditable id="textinput"></div>
                 </section>
             </div>
 
         </div>
 
     </div>
+
+<!-- Chat processing JavaScript -->
+<script src="chat.js"></script>
 
 </body>
 </html>
