@@ -1,0 +1,7 @@
+[moQ Changelog]
+
+
+#####V_1.00#####
+This will contain the features of version 1;
+when there is a working version of the system.
+(we are not anywhere near version 1 yet)

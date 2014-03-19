@@ -5,18 +5,21 @@ important tasks:
  ☐ make embeds work
  ✔ make chat input @done (14-03-19 14:24)
  ☐ save chats to text or db
- ☐ store chat locally (to reload when page refreshed)
+ ✔ store chat locally (to reload when page refreshed) @done (14-03-19 21:50)
  ☐ user to user communication (securely)
  ☐ base stylesheet
- ☐ display chat history without breaking page
+ ✔ display chat history without breaking page @done (14-03-19 21:50)
  ☐ figure out if it should be js/html filesystem or just use a backend
  ☐ fix chat length overflow issue
+ ☐ differentiate between user 1 and user 2 (and more?)
 
 optional tasks:
  ☐ create a basic theme
  ☐ make animations
  ☐ YouTube video sync player
- ☐ customisable user chat/name colours
+ ✔ customisable user chat/name colours @done (14-03-19 21:50)
+ ☐ save chat colours and show them to other clients
  ☐ user avatars
  ☐ user bio, links to homepage etc
- ☐ chat history
+ ✔ chat history @done (14-03-19 21:50)
+ ☐ chat timestamps

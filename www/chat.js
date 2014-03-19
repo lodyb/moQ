@@ -1,12 +1,22 @@
 console.log('moQ chat processor');
+
+// Put the version number here.
+document.getElementById('verid').innerHTML="0.01";
+
 // History is the chat log area.
 // Textinput is the box that you type in to.
 var history = document.getElementById('history');
 var textinput = document.getElementById('textinput');
+var displayname = document.getElementById('displayname');
+
 // Focus the caret to the text input box, so the user can type right away!
 textinput.focus();
+
 // Clear the history box, just incase?
 history.innerHTML="";
+
+// Run through vars and update default values to stored ones
+document.getElementById('displayname').innerHTML=localStorage.displayname;
 
 // This function takes the line that the user has typed in the input box
 // and places it into the chat history box!
@@ -28,7 +38,7 @@ function append_line(line, system){
             // There are user messages and system messages, which can be styled
             // and differentiated in the css.
             if(system){
-                history.innerHTML=history.innerHTML+"<span class=\"user\">"+line+"</span>";
+                history.innerHTML=history.innerHTML+"<span class=\"displayname\">"+localStorage.displayname+"</span><span class=\"user\">"+line+"</span>";
             }else{
                 history.innerHTML=history.innerHTML+"<span class=\"system\">"+line+"</span>";
             }
@@ -37,6 +47,9 @@ function append_line(line, system){
     // Save the chat log into storage.
     // This is done every time a line is appended.
     localStorage.log=history.innerHTML;
+
+    // Scroll to the bottom of the history when a new message is appended.
+    history.scrollTop = history.scrollHeight;
 }
 
 // this gets called whenever the user presses something on their
@@ -44,11 +57,11 @@ function append_line(line, system){
 function run(e) {
     // This code might be useful for responsive design or mobile layout
     // when I get around to doing that... (TODO)
-    if (window.innerHeight <= 900){
+    //if (window.innerHeight <= 900){
         // history.fontSize="100%";
         // textinput.fontSize="100%";
-    }else{
-    }
+    //}else{
+    //}
     switch(e.keyCode)
     {
         // When enter button is pressed, append and process the line
@@ -75,6 +88,7 @@ function run(e) {
         }
         break;
     }
+
 }
 
 // This function processes each line as it is appended,
@@ -157,6 +171,14 @@ function text_log()
             // If it is a brand new chat - this message is displayed.
             localStorage.log="<span class=\"system\">New chat with %user%</span>";
         }
+        // Do we have a display name stored?
+        if(localStorage.displayname){
+            // Set the display name to the one in storage.
+            displayname.innerHTML=localStorage.displayname;
+        }else{
+            // They don't have a name.
+            localStorage.displayname="Unnamed";
+        }
     }else{
         // Browser does not support localStorage. A server request would
         // be done here, possibly. Server could store the logs in a 
@@ -167,9 +189,57 @@ function text_log()
 // Execute the text log function on page load.
 text_log()
 
+// This function stores the settings when the user updates them
+// and also updates setting specific things in moQ.
+function update_settings(){
+    // Set the username to the one we have in storage (if it exists).
+    if(typeof(Storage)!=="undefined"){
+        if (localStorage.displayname){
+            localStorage.displayname=displayname.innerHTML;
+
+        // Also set the display name to chat history.
+        document.getElementById('displayname').innerHTML=localStorage.displayname;
+    }
+}
+
+    // Every time settings is updated, go through these colours and update them.
+    document.getElementById('dncolour').style.color=document.getElementById('dncolour').innerHTML;
+    document.getElementById('displayname').style.color=document.getElementById('dncolour').innerHTML;
+    document.getElementById('textcolour').style.color=document.getElementById('textcolour').innerHTML;
+
+    // Select every element with user class.
+    var user_colour = document.getElementsByClassName('user');
+
+    // Go through every element with the class and set the text colour to the one in settings.
+    for (var i=user_colour.length; i--;) {
+        user_colour[i].style.color=document.getElementById('textcolour').innerHTML;
+    }
+
+    // Select every element with displayname class.
+    var displayname_color = document.getElementsByClassName('displayname');
+
+    // Go through every element with the class and set the text colour to the one in settings.
+    for (var i=displayname_color.length; i--;) {
+        displayname_color[i].style.color=document.getElementById('dncolour').innerHTML;
+    }
+}
+
+// When the settings button is pressed, this function toggles the
+// settings menu from the top.
+function settings_toggle(){
+    if(document.getElementById('settings').style.top != "50%"){
+        document.getElementById('settings').style.top="50%";
+    }else{
+        document.getElementById('settings').style.top="-100%";
+    }
+}
+
 // This function captures any clicks made and redirects focus to
 // the text input box. Users can still select text and click links
 // and stuff, this just makes it less hassle to type stuff.
 document.addEventListener('click', function(e) {
-    textinput.focus();
+    // At the moment, it takes focus when it should not, for
+    // example when the user is entering things in the settings
+    // page. This needs to be fixed. (TODO)
+    //textinput.focus();
 }, false);

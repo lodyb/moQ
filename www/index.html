@@ -25,6 +25,7 @@
             <main>
                 <!-- Display chat recipient(s) -->
                 <h1>Chat with <span id="user">%user%</span></h1>
+                <h2 onclick="settings_toggle()">Settings</h2>
             </main>
 
             <div id="history">
@@ -46,6 +47,34 @@
 
         </div>
 
+    </div>
+
+    <!-- The settings are stored here, and their effects happen on the fly. -->
+    <div id="settings">
+     <h1>Settings</h1>
+     <ul>
+        <!-- The display name is pretty basic for now, need to differentiate between
+             both users for example in the future. -->
+        <li>Display name</li>
+        <div contenteditable id="displayname" class="item" onkeyup="update_settings()">user</div>
+        <!-- Link to avatar, should there be restrictions or should everything be
+             handled by JavaScript? -->
+        <li>Avatar</li>
+        <div contenteditable id="avatar" class="item">test</div>
+        <!-- The chat alert sound could be customisable -->
+        <li>Chat alert sound</li>
+        <input id="alertsound" class="item" type="checkbox"></input>
+        <!-- Dropdown menu for selecting a user theme (TODO) -->
+        <li>Theme</li>
+        <div contenteditable id="theme" class="item" type="select">test</div>
+        <!-- Real time editing of display name colour and chat text colour.
+             This is probably the worlds easiest XSS at the moment so it needs
+             to be sanitised or remade with a preset colour pallete etc. (TODO) -->
+        <li>Display name colour</li>
+        <div contenteditable id="dncolour" class="item" type="select" onkeyup="update_settings()">rgba(0,0,0,0.5)</div>
+        <li>Chat text colour</li>
+        <div contenteditable id="textcolour" class="item" type="select" type="select" onkeyup="update_settings()">rgba(0,0,0,1)</div>
+     </ul>
     </div>
 
 <!-- Chat processing JavaScript -->
