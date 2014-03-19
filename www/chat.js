@@ -34,6 +34,9 @@ function append_line(line, system){
             }
         }
     }
+    // Save the chat log into storage.
+    // This is done every time a line is appended.
+    localStorage.log=history.innerHTML;
 }
 
 // this gets called whenever the user presses something on their
@@ -42,11 +45,9 @@ function run(e) {
     // This code might be useful for responsive design or mobile layout
     // when I get around to doing that... (TODO)
     if (window.innerHeight <= 900){
-        console.log('small');
         // history.fontSize="100%";
         // textinput.fontSize="100%";
     }else{
-        console.log('big');
     }
     switch(e.keyCode)
     {
@@ -99,6 +100,7 @@ function process(line){
         if (echo_text){
             append_line(echo_text, 0);
         }else{
+            // For ducks with an empty echo.
             append_line("error: quack quack", 0);
         }
         break;
@@ -135,6 +137,35 @@ function process(line){
         break;
     }
 }
+
+// This function stores the chat in localStorage, so that
+// the chat history is retained when the page is refreshed.
+// It needs to separate the chat logs by what rooms they are in
+// and probably needs some server request to make sure that
+// the data was not lost - this still has a lot of work to be done.
+// (TODO)
+function text_log()
+{
+    // Make sure there is storage
+    if(typeof(Storage)!=="undefined"){
+        if (localStorage.log){
+            // Put history contents back in its' DIV.
+            history.innerHTML=localStorage.log;
+        }
+        else
+        {
+            // If it is a brand new chat - this message is displayed.
+            localStorage.log="<span class=\"system\">New chat with %user%</span>";
+        }
+    }else{
+        // Browser does not support localStorage. A server request would
+        // be done here, possibly. Server could store the logs in a 
+        // database, if this things turns out that way. (TODO)
+        history.innerHTML="Logs could not be loaded with this browser.";
+    }
+}
+// Execute the text log function on page load.
+text_log()
 
 // This function captures any clicks made and redirects focus to
 // the text input box. Users can still select text and click links
