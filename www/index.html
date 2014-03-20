@@ -41,7 +41,8 @@
                         buttons here for embedding and input styles
                     </div>
                     <!-- This is the text input field -->
-                    <div contenteditable id="textinput"></div>
+                    <input type="text" placeholder="message" autocomplete="off" id="textinput" onkeydown="run(event)"></input>
+                    <button id="submitbutton" type="submit" onclick="send_text()">send</button>
                 </section>
             </div>
 

@@ -5,9 +5,12 @@ document.getElementById('verid').innerHTML="0.01";
 
 // History is the chat log area.
 // Textinput is the box that you type in to.
+// Displayname is the client username.
+// Submitbutton is the submit button from the input area.
 var history = document.getElementById('history');
 var textinput = document.getElementById('textinput');
 var displayname = document.getElementById('displayname');
+var submitbutton = document.getElementById('submitbutton');
 
 // Focus the caret to the text input box, so the user can type right away!
 textinput.focus();
@@ -21,7 +24,7 @@ document.getElementById('displayname').innerHTML=localStorage.displayname;
 // This function takes the line that the user has typed in the input box
 // and places it into the chat history box!
 function append_line(line, system){
-    if (textinput.innerHTML.length){
+    if (textinput.value.length){
         // At the moment I have a placeholder 'max message size'
         // I want to change this to detect the chat width so that
         // messages do not overflow out of the chat box
@@ -38,9 +41,15 @@ function append_line(line, system){
             // There are user messages and system messages, which can be styled
             // and differentiated in the css.
             if(system){
-                history.innerHTML=history.innerHTML+"<span class=\"displayname\">"+localStorage.displayname+"</span><span class=\"user\">"+line+"</span>";
+                // New content is added using appendChild, as content does not
+                // have to be deleted and reloaded this way.
+                var new_content = document.createElement('span');
+                new_content.innerHTML = "<span class=\"displayname\">"+localStorage.displayname+"</span><span class=\"user\">"+line+"</span>";
+                history.appendChild(new_content);
             }else{
-                history.innerHTML=history.innerHTML+"<span class=\"system\">"+line+"</span>";
+                var new_content = document.createElement('span');
+                new_content.innerHTML = "<span class=\"system\">"+line+"</span>";
+                history.appendChild(new_content);
             }
         }
     }
@@ -68,9 +77,7 @@ function run(e) {
         // and reset the input box to empty.
         case 13:
         e.preventDefault();
-        append_line(textinput.innerHTML, 1);
-        process(textinput.innerHTML);
-        textinput.innerHTML="";
+        send_text();
         break;
         // Disable up arrow key (interferes with input box).
         case 38:
@@ -83,12 +90,24 @@ function run(e) {
         default:
         // If text message greater than X characters, disable input.
         // ctrl f 'max message size' for explanation.
-        if (textinput.innerHTML.length >= 255){
+        if (textinput.value.length >= 255){
             e.preventDefault();
         }
         break;
     }
 
+}
+
+// This function sends text from the input box to the history box
+// It is used by enter key listener and the submit button.
+function send_text(){
+    console.log(textinput.value);
+    // Place the value of the text input box to the history box.
+    append_line(textinput.value, 1);
+    // Run the value through the processor.
+    process(textinput.value);
+    // Reset the text input box to a blank state.
+    textinput.value="";
 }
 
 // This function processes each line as it is appended,
@@ -149,6 +168,45 @@ function process(line){
         break;
         default:
         break;
+    }
+
+    // split the possible filetype at the end of the URL.
+    var filetype = line.split('.').pop();
+    // Take out unnecessary text from the URL.
+    var website = line.replace("http://", "").replace("https://", "").replace("www.", "");
+    // Split website into an array by the period.
+    website = website.split('.');
+    // Select first array index (e.g. [youtube].[com]).
+    console.log(website[0]);
+    console.log(filetype);
+
+    // Embed certain image types into the line
+    if (line){
+        switch(filetype){
+            case 'png':
+            case 'jpg':
+            case 'jpeg':
+            case 'gif':
+            case 'bmp':
+                append_line("<img src=\""+line+"\">", 0);
+                console.log('attempting to parse image: '+line);
+            break;
+            default:
+            break;
+        }
+        // This section parses YouTube videos into chat.
+        // if [youtube]
+        if (website[0] == "youtube"){
+            var youtube_url = line.split("=").pop();
+            append_line("<iframe width=\"420\" height=\"315\" src=\"http://www.youtube.com/embed/"+youtube_url+"\" frameborder=\"0\" allowfullscreen></iframe>", 0);
+            console.log('attempting to parse YouTube video: '+line);
+        }
+        // if [youtu] (for youtu.be URL)
+        if (website[0] == "youtu"){
+            var youtube_url = line.split("be/").pop();
+            append_line("<iframe width=\"420\" height=\"315\" src=\"http://www.youtube.com/embed/"+youtube_url+"\" frameborder=\"0\" allowfullscreen></iframe>", 0);
+            console.log('attempting to parse YouTube video: '+line);
+        }
     }
 }
 
