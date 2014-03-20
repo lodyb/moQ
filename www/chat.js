@@ -24,35 +24,27 @@ document.getElementById('displayname').innerHTML=localStorage.displayname;
 // This function takes the line that the user has typed in the input box
 // and places it into the chat history box!
 function append_line(line, system){
-    if (textinput.value.length){
-        // At the moment I have a placeholder 'max message size'
-        // I want to change this to detect the chat width so that
-        // messages do not overflow out of the chat box
-        // and get split into lines. (TODO)
-        if (line.length > 255){
-            var parts = [];
-            for (var i = 0, charsLength = line.length; i < charsLength; i += 255) {
-                parts.push(line.substring(i, i + 255));
-            }
-            for (var i=0; i<parts.length; i++){
-                append_line(parts[i]);
-            }
-        }else{
-            // There are user messages and system messages, which can be styled
-            // and differentiated in the css.
-            if(system){
-                // New content is added using appendChild, as content does not
-                // have to be deleted and reloaded this way.
-                var new_content = document.createElement('span');
-                new_content.innerHTML = "<span class=\"displayname\">"+localStorage.displayname+"</span><span class=\"user\">"+line+"</span>";
-                history.appendChild(new_content);
-            }else{
-                var new_content = document.createElement('span');
-                new_content.innerHTML = "<span class=\"system\">"+line+"</span>";
-                history.appendChild(new_content);
-            }
+    if (textinput.value.length){ 
+        // There are user messages and system messages, which can be styled
+        // and differentiated in the css.
+        if(system == 1){
+            // New content is added using appendChild, as content does not
+            // have to be deleted and reloaded this way.
+            var new_content = document.createElement('span');
+            new_content.innerHTML = "<span class=\"displayname\">"+localStorage.displayname+"</span><span class=\"user\">"+line+"</span>";
+            history.appendChild(new_content);
+        }else if(system == 0){
+            var new_content = document.createElement('span');
+            new_content.innerHTML = "<span class=\"system\">"+line+"</span>";
+            history.appendChild(new_content);
+        }else if(system == 2){
+            // This is for appending multiple lines for the user message.
+            var new_content = document.createElement('span');
+            new_content.innerHTML = "<span class=\"user\">"+line+"</span>";
+            history.appendChild(new_content);    
         }
     }
+
     // Save the chat log into storage.
     // This is done every time a line is appended.
     localStorage.log=history.innerHTML;
@@ -188,8 +180,8 @@ function process(line){
             case 'jpeg':
             case 'gif':
             case 'bmp':
-                append_line("<img src=\""+line+"\">", 0);
-                console.log('attempting to parse image: '+line);
+            append_line("<img src=\""+line+"\">", 0);
+            console.log('attempting to parse image: '+line);
             break;
             default:
             break;
@@ -301,3 +293,6 @@ document.addEventListener('click', function(e) {
     // page. This needs to be fixed. (TODO)
     //textinput.focus();
 }, false);
+
+// Start with the history scrolled to the bottom.
+setTimeout(function(){history.scrollTop = history.scrollHeight;},200);

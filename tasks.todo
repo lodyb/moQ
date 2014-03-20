@@ -2,14 +2,22 @@ moQ task list
 
 important tasks:
  ✔ basic page template @done (14-03-19 11:42)
- ☐ make embeds work
+ ✔ make embeds work @done (14-03-20 10:01)
+ ✔ YouTube embed @done (14-03-20 10:01)
+ ✔ image embed @done (14-03-20 10:01)
+ ☐ video embed
+ ☐ soundcloud embed
+ ☐ chat smileys
+ ☐ chat text formatting
+ ☐ chat hyperlink formatting
  ✔ make chat input @done (14-03-19 14:24)
  ☐ save chats to text or db
  ✔ store chat locally (to reload when page refreshed) @done (14-03-19 21:50)
  ☐ user to user communication (securely)
  ☐ base stylesheet
  ✔ display chat history without breaking page @done (14-03-19 21:50)
- ☐ figure out if it should be js/html filesystem or just use a backend
+ ☐ write node backend
+ ☐ write sockets interface
  ☐ fix chat length overflow issue
  ☐ differentiate between user 1 and user 2 (and more?)
 

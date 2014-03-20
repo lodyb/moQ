@@ -10,18 +10,20 @@
 <body onkeydown="return run(event)">
 
     <div id="wrapper">
-    
+        
         <header>
-        <!-- Display version number -->
-        <span id="ver">moQ - Version
-            <span id="verid">%version%</span>
-        </span>
-        <!-- Link to github repository -->
-        <span id="fork">fork on github</span>
+            <!-- Display version number -->
+            <span id="ver">moQ - Version
+                <span id="verid">%version%</span>
+            </span>
+            <!-- Link to github repository -->
+            <a id="fork" href="https://github.com/lodyb/moQ" target="_blank">
+                fork on github
+            </a>
         </header>
 
         <div id="chat">
-        
+            
             <main>
                 <!-- Display chat recipient(s) -->
                 <h1>Chat with <span id="user">%user%</span></h1>
@@ -29,7 +31,7 @@
             </main>
 
             <div id="history">
-            <!-- The entire chat log goes here -->
+                <!-- The entire chat log goes here -->
                 chat is here
             </div>
 
@@ -52,34 +54,49 @@
 
     <!-- The settings are stored here, and their effects happen on the fly. -->
     <div id="settings">
-     <h1>Settings</h1>
-     <ul>
+       <h1>Settings</h1>
+       <ul>
         <!-- The display name is pretty basic for now, need to differentiate between
-             both users for example in the future. -->
+        both users for example in the future. -->
         <li>Display name</li>
         <div contenteditable id="displayname" class="item" onkeyup="update_settings()">user</div>
         <!-- Link to avatar, should there be restrictions or should everything be
-             handled by JavaScript? -->
+        handled by JavaScript? -->
         <li>Avatar</li>
         <div contenteditable id="avatar" class="item">test</div>
         <!-- The chat alert sound could be customisable -->
         <li>Chat alert sound</li>
-        <input id="alertsound" class="item" type="checkbox"></input>
+        <div class="checkbox">
+            <input type="checkbox" value="1" id="alertsound" name="" />
+            <label for="alertsound"></label>
+        </div>
+        <!-- Toggle chat image processing -->
+        <li>Display images in chat</li>
+        <div class="checkbox">
+            <input type="checkbox" value="1" id="imagetoggle" name="" />
+            <label for="imagetoggle"></label>
+        </div>
+        <!-- Toggle chat embed processing -->
+        <li>Embed content in chat</li>
+        <div class="checkbox">
+            <input type="checkbox" value="1" id="embedtoggle" name="" />
+            <label for="embedtoggle"></label>
+        </div>
         <!-- Dropdown menu for selecting a user theme (TODO) -->
         <li>Theme</li>
         <div contenteditable id="theme" class="item" type="select">test</div>
         <!-- Real time editing of display name colour and chat text colour.
              This is probably the worlds easiest XSS at the moment so it needs
              to be sanitised or remade with a preset colour pallete etc. (TODO) -->
-        <li>Display name colour</li>
-        <div contenteditable id="dncolour" class="item" type="select" onkeyup="update_settings()">rgba(0,0,0,0.5)</div>
-        <li>Chat text colour</li>
-        <div contenteditable id="textcolour" class="item" type="select" type="select" onkeyup="update_settings()">rgba(0,0,0,1)</div>
-     </ul>
-    </div>
+             <li>Display name colour</li>
+             <div contenteditable id="dncolour" class="item" type="select" onkeyup="update_settings()">rgba(0,0,0,0.5)</div>
+             <li>Chat text colour</li>
+             <div contenteditable id="textcolour" class="item" type="select" type="select" onkeyup="update_settings()">rgba(0,0,0,1)</div>
+         </ul>
+     </div>
 
-<!-- Chat processing JavaScript -->
-<script src="chat.js"></script>
+     <!-- Chat processing JavaScript -->
+     <script src="chat.js"></script>
 
-</body>
-</html>
+ </body>
+ </html>
