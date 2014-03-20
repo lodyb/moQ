@@ -10,7 +10,7 @@
 <body onkeydown="return run(event)">
 
     <div id="wrapper">
-        
+
         <header>
             <!-- Display version number -->
             <span id="ver">moQ - Version
@@ -23,7 +23,7 @@
         </header>
 
         <div id="chat">
-            
+
             <main>
                 <!-- Display chat recipient(s) -->
                 <h1>Chat with <span id="user">%user%</span></h1>
@@ -86,17 +86,20 @@
         <li>Theme</li>
         <div contenteditable id="theme" class="item" type="select">test</div>
         <!-- Real time editing of display name colour and chat text colour.
-             This is probably the worlds easiest XSS at the moment so it needs
-             to be sanitised or remade with a preset colour pallete etc. (TODO) -->
-             <li>Display name colour</li>
-             <div contenteditable id="dncolour" class="item" type="select" onkeyup="update_settings()">rgba(0,0,0,0.5)</div>
-             <li>Chat text colour</li>
-             <div contenteditable id="textcolour" class="item" type="select" type="select" onkeyup="update_settings()">rgba(0,0,0,1)</div>
-         </ul>
-     </div>
+        This is probably the worlds easiest XSS at the moment so it needs
+        to be sanitised or remade with a preset colour pallete etc. (TODO) -->
+        <li>Display name colour</li>
+        <div contenteditable id="dncolour" class="item" type="select" onkeyup="update_settings()">rgba(0,0,0,0.5)</div>
+        <li>Chat text colour</li>
+        <div contenteditable id="textcolour" class="item" type="select" type="select" onkeyup="update_settings()">rgba(0,0,0,1)</div>
+        </ul>
+    </div>
 
-     <!-- Chat processing JavaScript -->
-     <script src="chat.js"></script>
+    <!-- Include socket.io -->
+    <script src="/socket.io/socket.io.js"></script>
+
+    <!-- Chat processing JavaScript -->
+    <script src="chat.js"></script>
 
  </body>
  </html>

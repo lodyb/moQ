@@ -1,5 +1,11 @@
 console.log('moQ chat processor');
 
+// Connect socket
+  var socket = io.connect('http://localhost:3000');
+  socket.on('news', function (data) {
+    socket.emit('my other event', { my: 'data' });
+  });
+
 // Put the version number here.
 document.getElementById('verid').innerHTML="0.01";
 
@@ -11,6 +17,8 @@ var history = document.getElementById('history');
 var textinput = document.getElementById('textinput');
 var displayname = document.getElementById('displayname');
 var submitbutton = document.getElementById('submitbutton');
+
+var data = "";
 
 // Focus the caret to the text input box, so the user can type right away!
 textinput.focus();
@@ -24,7 +32,7 @@ document.getElementById('displayname').innerHTML=localStorage.displayname;
 // This function takes the line that the user has typed in the input box
 // and places it into the chat history box!
 function append_line(line, system){
-    if (textinput.value.length){ 
+    if (line.length){ 
         // There are user messages and system messages, which can be styled
         // and differentiated in the css.
         if(system == 1){
@@ -42,6 +50,9 @@ function append_line(line, system){
             var new_content = document.createElement('span');
             new_content.innerHTML = "<span class=\"user\">"+line+"</span>";
             history.appendChild(new_content);    
+        }else if(system == 3){
+            // This is a hidden message.
+            return;
         }
     }
 
@@ -93,18 +104,37 @@ function run(e) {
 // This function sends text from the input box to the history box
 // It is used by enter key listener and the submit button.
 function send_text(){
-    console.log(textinput.value);
+    data = textinput.value;
+    // Send the value of the text to the server.
+    socket.emit('msg_send', data);
     // Place the value of the text input box to the history box.
-    append_line(textinput.value, 1);
+    append_line(data, 1);
     // Run the value through the processor.
-    process(textinput.value);
+    process(data);
     // Reset the text input box to a blank state.
     textinput.value="";
 }
 
+// When a new message is received...
+socket.on('msg_new', function(data){
+    // Make sure the data is not empty.
+    if(data.length){
+        // Append the data to the chat history.
+        append_line(data, 1);
+        // Process the data.
+        process(data);
+        // Check to make sure this is getting called correctly
+        console.log("received data: "+data);
+    }
+});
+
 // This function processes each line as it is appended,
 // which is used for the system messages and most likely
 // for embedding content (when that functionality is added).
+// (TODO)
+// I also want to be able to have the commands only locally
+// displayed, for example if someone types clear, it should
+// not be sent to everyone as a text message.
 // (TODO)
 function process(line){
     // Split the lines by the spaces
@@ -151,6 +181,11 @@ function process(line){
         letters = letters.length;
         append_line(letters, 0);
         break;
+        // Clear the chat history box.
+        case 'clear':
+        history.innerHTML="";
+        process('thetime');
+        break;
         // Display your ip to the guy on the other side...
         // This could be useful for proving who you are to your friend
         // although it is probably quite dumb and needs something better
@@ -168,9 +203,6 @@ function process(line){
     var website = line.replace("http://", "").replace("https://", "").replace("www.", "");
     // Split website into an array by the period.
     website = website.split('.');
-    // Select first array index (e.g. [youtube].[com]).
-    console.log(website[0]);
-    console.log(filetype);
 
     // Embed certain image types into the line
     if (line){
