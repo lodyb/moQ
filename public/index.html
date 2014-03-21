@@ -1,16 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-
     <meta charset="utf-8">
     <title>moQ</title>
     <link href="base.css" rel="stylesheet">
-
 </head>
 <body onkeydown="return run(event)">
-
     <div id="wrapper">
-
         <header>
             <!-- Display version number -->
             <span id="ver">moQ - Version
@@ -21,20 +17,16 @@
                 fork on github
             </a>
         </header>
-
         <div id="chat">
-
             <main>
                 <!-- Display chat recipient(s) -->
                 <h1>Chat with <span id="user">%user%</span></h1>
                 <h2 onclick="settings_toggle()">Settings</h2>
             </main>
-
             <div id="history">
                 <!-- The entire chat log goes here -->
                 chat is here
             </div>
-
             <div id="input">
                 <section>
                     <!-- This will hold font styles, like bold, italic,
@@ -47,11 +39,8 @@
                     <button id="submitbutton" type="submit" onclick="send_text()">send</button>
                 </section>
             </div>
-
         </div>
-
     </div>
-
     <!-- The settings are stored here, and their effects happen on the fly. -->
     <div id="settings">
        <h1>Settings</h1>
@@ -94,12 +83,11 @@
         <div contenteditable id="textcolour" class="item" type="select" type="select" onkeyup="update_settings()">rgba(0,0,0,1)</div>
         </ul>
     </div>
-
     <!-- Include socket.io -->
     <script src="/socket.io/socket.io.js"></script>
-
     <!-- Chat processing JavaScript -->
-    <script src="chat.js"></script>
-
+    <script src="moq_chat.js"></script>
+    <script src="moq_process.js"></script>
+    <script src="moq_network.js"></script>
  </body>
  </html>
