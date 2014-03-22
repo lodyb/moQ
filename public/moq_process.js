@@ -101,3 +101,12 @@ function process(line){
         }
     }
 }
+
+// this function pre-processes chat input
+// returns new chat string which will be sent
+// to other clients and displayed in the chat box
+function pre_process(line) {
+    emoticons_enabled = 1
+    if (emoticons_enabled) line = emoticons_replace(line);
+    return line;
+}

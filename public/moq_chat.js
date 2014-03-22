@@ -76,7 +76,7 @@ function append_line(line, system){
 // This function sends text from the input box to the history box
 // It is used by enter key listener and the submit button.
 function send_text(){
-    data = textinput.value;
+    data = pre_process(textinput.value);
     // Send the value of the text to the server.
     socket.emit('msg_send', data);
     // Place the value of the text input box to the history box.
