@@ -17,29 +17,29 @@ function process(line){
         case 'thetime':
         var date = new Date();
         var date_string = date.toString();
-        append_line(date_string, 0);
+        append_line(date_string, 0, 0);
         break;
         // Echo some text.
         case 'echo':
         var echo_text = line.substring(5)
         if (echo_text){
-            append_line(echo_text, 0);
+            append_line(echo_text, 0, 0);
         }else{
             // For ducks with an empty echo.
-            append_line("error: quack quack", 0);
+            append_line("error: quack quack", 0, 0);
         }
         break;
         // Help menu, not finished (TODO).
         case 'help':
         var help_text = "haha no help for u"
-        append_line(help_text, 0);
+        append_line(help_text, 0, 0);
         break;
         // This simply displays the current directory for now;
         // it's useless and will probably get removed. (TODO)
         case 'cd':
         var loc = window.location.pathname;
         var dir = loc.substring(0, loc.lastIndexOf('/'));
-        append_line(dir, 0);
+        append_line(dir, 0, 0);
         break;
         // Count the (alphanumeric) letters used in the chat
         // This could get removed or expanded as it might
@@ -49,7 +49,7 @@ function process(line){
         var letters = null;
         letters = content.replace(/<(?!br\s*\/?)[^>]+>/g, '');
         letters = letters.length;
-        append_line(letters, 0);
+        append_line(letters, 0, 0);
         break;
         // Clear the chat history box.
         case 'clear':
@@ -61,7 +61,7 @@ function process(line){
         // although it is probably quite dumb and needs something better
         // to replace it! (TODO)
         case 'ip':
-        append_line(myip, 0);
+        append_line(myip, 0, 0);
         break;
         default:
         break;
@@ -80,7 +80,7 @@ function process(line){
             case 'jpeg':
             case 'gif':
             case 'bmp':
-            append_line("<img src=\""+line+"\">", 0);
+            append_line("<img src=\""+line+"\">", 0, 0);
             console.log('attempting to parse image: '+line);
             break;
             default:
@@ -90,13 +90,13 @@ function process(line){
         // if [youtube]
         if (website[0] == "youtube"){
             var youtube_url = line.split("=").pop();
-            append_line("<iframe width=\"420\" height=\"315\" src=\"http://www.youtube.com/embed/"+youtube_url+"\" frameborder=\"0\" allowfullscreen></iframe>", 0);
+            append_line("<iframe width=\"420\" height=\"315\" src=\"http://www.youtube.com/embed/"+youtube_url+"\" frameborder=\"0\" allowfullscreen></iframe>", 0, 0);
             console.log('attempting to parse YouTube video: '+line);
         }
         // if [youtu] (for youtu.be URL)
         if (website[0] == "youtu"){
             var youtube_url = line.split("be/").pop();
-            append_line("<iframe width=\"420\" height=\"315\" src=\"http://www.youtube.com/embed/"+youtube_url+"\" frameborder=\"0\" allowfullscreen></iframe>", 0);
+            append_line("<iframe width=\"420\" height=\"315\" src=\"http://www.youtube.com/embed/"+youtube_url+"\" frameborder=\"0\" allowfullscreen></iframe>", 0, 0);
             console.log('attempting to parse YouTube video: '+line);
         }
     }

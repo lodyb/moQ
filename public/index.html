@@ -5,7 +5,7 @@
     <title>moQ</title>
     <link href="base.css" rel="stylesheet">
 </head>
-<body onkeydown="return run(event)">
+<body onkeypress="return run(event)">
     <div id="wrapper">
         <header>
             <!-- Display version number -->
@@ -48,7 +48,8 @@
         <!-- The display name is pretty basic for now, need to differentiate between
         both users for example in the future. -->
         <li>Display name</li>
-        <div contenteditable id="displayname" class="item" onkeyup="update_settings()">user</div>
+        <input type="text" placeholder="Display Name" autocomplete="off" id="displayname" class="item" onblur="update_settings()"></input>
+        <span id="name_error"></span>
         <!-- Link to avatar, should there be restrictions or should everything be
         handled by JavaScript? -->
         <li>Avatar</li>

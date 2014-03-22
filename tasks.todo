@@ -7,7 +7,7 @@ important tasks:
  ✔ image embed @done (14-03-20 10:01)
  ☐ video embed
  ☐ soundcloud embed
- ☐ chat smileys
+ ✔ chat smileys @done (14-03-22 15:49)
  ☐ chat text formatting
  ☐ chat hyperlink formatting
  ✔ make chat input @done (14-03-19 14:24)
@@ -16,10 +16,10 @@ important tasks:
  ☐ user to user communication (securely)
  ☐ base stylesheet
  ✔ display chat history without breaking page @done (14-03-19 21:50)
- ☐ write node backend
- ☐ write sockets interface
- ☐ fix chat length overflow issue
- ☐ differentiate between user 1 and user 2 (and more?)
+ ✔ write node backend @done (14-03-22 15:49)
+ ✔ write sockets interface @done (14-03-22 15:49)
+ ✔ fix chat length overflow issue @done (14-03-22 15:49)
+ ✔ differentiate between user 1 and user 2 (and more?) @done (14-03-22 15:49)
 
 optional tasks:
  ☐ create a basic theme

@@ -4,14 +4,26 @@ var data = "";
 // When a new message is received...
 socket.on('msg_new', function(data){
     // Make sure the data is not empty.
-    if(data.length){
+    if(data != -1){
         // Append the data to the chat history.
-        append_line(data, 1);
+        // Put the nick into the append.
+        append_line(data.msg, 1, data.nick);
+        // Show message 'toast' on title.
+        document.title=data.nick+": "+data.msg;
         // Process the data.
-        process(data);
+        process(data.msg);
         // Check to make sure this is getting called correctly
-        console.log("received data: "+data);
+        console.log("received data: "+data.msg);
+        console.log("received data: "+data.nick);
     }
+});
+// When displaynames array is updated:
+socket.on('displaynames', function(data){
+    var content = "";
+    for(i=0;i<data.length;i++){
+        content+=data[i]+', ';
+    }
+    document.getElementById('user').innerHTML=content;
 });
 // This function stores the chat in localStorage, so that
 // the chat history is retained when the page is refreshed.

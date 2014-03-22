@@ -16,43 +16,50 @@ history.innerHTML="";
 // this gets called whenever the user presses something on their
 // keyboard. 
 function run(e) {
-    switch(e.keyCode)
-    {
-        // When enter button is pressed, append and process the line
-        // and reset the input box to empty.
-        case 13:
-        e.preventDefault();
-        send_text();
-        break;
-        // Disable up arrow key (interferes with input box).
-        case 38:
-        e.preventDefault();
-        break;
-        // Disable down arrow key (interferes with input box).
-        case 40:
-        e.preventDefault();
-        break;
-        default:
-        // If text message greater than X characters, disable input.
-        // ctrl f 'max message size' for explanation.
-        if (textinput.value.length >= 255){
+        switch(e.keyCode)
+        {
+            // When enter button is pressed, append and process the line
+            // and reset the input box to empty.
+            case 13:
             e.preventDefault();
+            send_text();
+            break;
+            // Disable up arrow key (interferes with input box).
+            case 38:
+            e.preventDefault();
+            break;
+            // Disable down arrow key (interferes with input box).
+            case 40:
+            e.preventDefault();
+            break;
+            default:
+            // If text message greater than X characters, disable input.
+            // ctrl f 'max message size' for explanation.
+            if (textinput.value.length >= 255){
+                e.preventDefault();
+            }
+            break;
         }
-        break;
-    }
 }
 // This function takes the line that the user has typed in the input box
 // and places it into the chat history box!
-function append_line(line, system){
+function append_line(line, system, user){
     if (line.length){ 
         // There are user messages and system messages, which can be styled
         // and differentiated in the css.
         if(system == 1){
-            // New content is added using appendChild, as content does not
-            // have to be deleted and reloaded this way.
-            var new_content = document.createElement('span');
-            new_content.innerHTML = "<span class=\"displayname\">"+localStorage.displayname+"</span><span class=\"user\">"+line+"</span>";
-            history.appendChild(new_content);
+            // If a user string is passed:
+            if (user != 0){
+                var new_content = document.createElement('span');
+                new_content.innerHTML = "<span class=\"displayname\">"+user+"</span><span class=\"user\">"+line+"</span>";
+                history.appendChild(new_content);
+            }else{
+                // New content is added using appendChild, as content does not
+                // have to be deleted and reloaded this way.
+                var new_content = document.createElement('span');
+                new_content.innerHTML = "<span class=\"displayname\">"+localStorage.displayname+"</span><span class=\"user\">"+line+"</span>";
+                history.appendChild(new_content);
+            }
         }else if(system == 0){
             var new_content = document.createElement('span');
             new_content.innerHTML = "<span class=\"system\">"+line+"</span>";
@@ -80,7 +87,9 @@ function send_text(){
     // Send the value of the text to the server.
     socket.emit('msg_send', data);
     // Place the value of the text input box to the history box.
-    append_line(data, 1);
+    // This puts the line into the chat on the client side.
+    // This probably needs cleaning up (TODO).
+    append_line(data, 1, document.getElementById('displayname').value);
     // Run the value through the processor.
     process(data);
     // Reset the text input box to a blank state.
@@ -101,9 +110,20 @@ function update_settings(){
     // Set the username to the one we have in storage (if it exists).
     if(typeof(Storage)!=="undefined"){
         if (localStorage.displayname){
-            localStorage.displayname=displayname.innerHTML;
+            localStorage.displayname=displayname.value;
+            // Emit the display name change to the server.
+            socket.emit('new_user',
+                document.getElementById('displayname').value,
+                function(data){
+                    if(data){
+                        // If a new username is supplied:   
+                    }else{
+                        // If the name is taken:
+                        document.getElementById('name_error').innerHTML='Name taken';
+                    }
+                });
             // Also set the display name to chat history.
-            document.getElementById('displayname').innerHTML=localStorage.displayname;
+            document.getElementById('displayname').value=localStorage.displayname;
         }
     }
     // Every time settings is updated, go through these colours and update them.
